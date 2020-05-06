@@ -1,31 +1,31 @@
 language: node_js
 node_js:
   - 12.16.1
-before_install:
-  - cd frontend
-  - npm cache clean --force
-install:
-  - npm install
-script:
-  - npm run build
 # before_install:
-#   - cd backend
+#   - cd frontend
 #   - npm cache clean --force
 # install:
 #   - npm install
-# script: "true"
+# script:
+#   - npm run build
+before_install:
+  - cd backend
+  - npm cache clean --force
+install:
+  - npm install
+script: "true"
 deploy:
   # deploy app as front end website
-  provider: heroku
-  skip_cleanup: true
-  app: spm-study-places
-  api_key:
-    secure: BigTEtvTVgxYpdw9t1P2fbb+y6lIjp+UpzvccAovqnkNlmlj6cYmdChnFUNhj2xVxuIYUTgOC2VRiQLWh/OS2NVJ4wI1hQ6fbNpjIMIrA3sELT3bUjkM3251tJgMHH7Z7sUgJt25eO8OyqVchLQ1BRd/TjQ+MVvjWfTG//pbBfbhZ6RwsOLhBFgLx9VRy4sDuUsuHIVT07dSMCyM1/KfpOSRJB4Q7L6PLv4i6BEL15+SIKvIB/8nE5kHZ3rMKr4iVC2oKGkGifoql/8vBHTQTmwiFJNH7Y4W4L7cb1fiomb2W8Sk+bsGuZCCuEyiUbnNAZ37rBPJ01pkjEyCx7cPE2pKfnOGoXV4Tgw1Ize0Qth2RsVEaEDIEmiiIhZXpnp7wPB5KhZYgp63eamapeKRQyFsF5Wyktfp7ER+6SL4Z88yq3QTGnp1Jbt0aK9Mk8s5N/dmEitQOPtmh4KL39akmdBlNUnmNlQD4leTXSgaj7NJ0mwsBC+R407FHCLFwmnQZs9qY+12IQ4zOLJbXkAiDe4x3IVBt4Gl3iW/2vwHMfWMUB0TmkFbS0S3tuDVYP8HZMh8fysKNRmjuVgaqYu2nfFWqw08MDjYzpg9e/3bZwFiD/mzMvIDOo2YbHe5py0iv6VwHpxc4TS4eLFFM+pyZzG0g55omoHUIrB4BaVCKs4=
-  # deploy app as api server
   # provider: heroku
   # skip_cleanup: true
-  # app: vn-dashboard
+  # app: spm-study-places
   # api_key:
   #   secure: BigTEtvTVgxYpdw9t1P2fbb+y6lIjp+UpzvccAovqnkNlmlj6cYmdChnFUNhj2xVxuIYUTgOC2VRiQLWh/OS2NVJ4wI1hQ6fbNpjIMIrA3sELT3bUjkM3251tJgMHH7Z7sUgJt25eO8OyqVchLQ1BRd/TjQ+MVvjWfTG//pbBfbhZ6RwsOLhBFgLx9VRy4sDuUsuHIVT07dSMCyM1/KfpOSRJB4Q7L6PLv4i6BEL15+SIKvIB/8nE5kHZ3rMKr4iVC2oKGkGifoql/8vBHTQTmwiFJNH7Y4W4L7cb1fiomb2W8Sk+bsGuZCCuEyiUbnNAZ37rBPJ01pkjEyCx7cPE2pKfnOGoXV4Tgw1Ize0Qth2RsVEaEDIEmiiIhZXpnp7wPB5KhZYgp63eamapeKRQyFsF5Wyktfp7ER+6SL4Z88yq3QTGnp1Jbt0aK9Mk8s5N/dmEitQOPtmh4KL39akmdBlNUnmNlQD4leTXSgaj7NJ0mwsBC+R407FHCLFwmnQZs9qY+12IQ4zOLJbXkAiDe4x3IVBt4Gl3iW/2vwHMfWMUB0TmkFbS0S3tuDVYP8HZMh8fysKNRmjuVgaqYu2nfFWqw08MDjYzpg9e/3bZwFiD/mzMvIDOo2YbHe5py0iv6VwHpxc4TS4eLFFM+pyZzG0g55omoHUIrB4BaVCKs4=
+  # deploy app as api server
+  provider: heroku
+  skip_cleanup: true
+  app: vn-dashboard
+  api_key:
+    secure: BigTEtvTVgxYpdw9t1P2fbb+y6lIjp+UpzvccAovqnkNlmlj6cYmdChnFUNhj2xVxuIYUTgOC2VRiQLWh/OS2NVJ4wI1hQ6fbNpjIMIrA3sELT3bUjkM3251tJgMHH7Z7sUgJt25eO8OyqVchLQ1BRd/TjQ+MVvjWfTG//pbBfbhZ6RwsOLhBFgLx9VRy4sDuUsuHIVT07dSMCyM1/KfpOSRJB4Q7L6PLv4i6BEL15+SIKvIB/8nE5kHZ3rMKr4iVC2oKGkGifoql/8vBHTQTmwiFJNH7Y4W4L7cb1fiomb2W8Sk+bsGuZCCuEyiUbnNAZ37rBPJ01pkjEyCx7cPE2pKfnOGoXV4Tgw1Ize0Qth2RsVEaEDIEmiiIhZXpnp7wPB5KhZYgp63eamapeKRQyFsF5Wyktfp7ER+6SL4Z88yq3QTGnp1Jbt0aK9Mk8s5N/dmEitQOPtmh4KL39akmdBlNUnmNlQD4leTXSgaj7NJ0mwsBC+R407FHCLFwmnQZs9qY+12IQ4zOLJbXkAiDe4x3IVBt4Gl3iW/2vwHMfWMUB0TmkFbS0S3tuDVYP8HZMh8fysKNRmjuVgaqYu2nfFWqw08MDjYzpg9e/3bZwFiD/mzMvIDOo2YbHe5py0iv6VwHpxc4TS4eLFFM+pyZzG0g55omoHUIrB4BaVCKs4=
   on:
     repo: minhsonfetel1996/bongdanews
