@@ -1,31 +1,17 @@
 language: node_js
 node_js:
-  - 12.16.1
-# before_install:
-#   - cd frontend
-#   - npm cache clean --force
-# install:
-#   - npm install
-# script:
-#   - npm run build
+- 12.16.1
 before_install:
-  - cd backend
-  - npm cache clean --force
+- cd backend
+- npm cache clean --force
 install:
-  - npm install
-script: "true"
+- npm install
+script: 'true'
 deploy:
-  # deploy app as front end website
-  # provider: heroku
-  # skip_cleanup: true
-  # app: spm-study-places
-  # api_key:
-  #   secure: BigTEtvTVgxYpdw9t1P2fbb+y6lIjp+UpzvccAovqnkNlmlj6cYmdChnFUNhj2xVxuIYUTgOC2VRiQLWh/OS2NVJ4wI1hQ6fbNpjIMIrA3sELT3bUjkM3251tJgMHH7Z7sUgJt25eO8OyqVchLQ1BRd/TjQ+MVvjWfTG//pbBfbhZ6RwsOLhBFgLx9VRy4sDuUsuHIVT07dSMCyM1/KfpOSRJB4Q7L6PLv4i6BEL15+SIKvIB/8nE5kHZ3rMKr4iVC2oKGkGifoql/8vBHTQTmwiFJNH7Y4W4L7cb1fiomb2W8Sk+bsGuZCCuEyiUbnNAZ37rBPJ01pkjEyCx7cPE2pKfnOGoXV4Tgw1Ize0Qth2RsVEaEDIEmiiIhZXpnp7wPB5KhZYgp63eamapeKRQyFsF5Wyktfp7ER+6SL4Z88yq3QTGnp1Jbt0aK9Mk8s5N/dmEitQOPtmh4KL39akmdBlNUnmNlQD4leTXSgaj7NJ0mwsBC+R407FHCLFwmnQZs9qY+12IQ4zOLJbXkAiDe4x3IVBt4Gl3iW/2vwHMfWMUB0TmkFbS0S3tuDVYP8HZMh8fysKNRmjuVgaqYu2nfFWqw08MDjYzpg9e/3bZwFiD/mzMvIDOo2YbHe5py0iv6VwHpxc4TS4eLFFM+pyZzG0g55omoHUIrB4BaVCKs4=
-  # deploy app as api server
   provider: heroku
   skip_cleanup: true
   app: vn-dashboard
   api_key:
-    secure: BigTEtvTVgxYpdw9t1P2fbb+y6lIjp+UpzvccAovqnkNlmlj6cYmdChnFUNhj2xVxuIYUTgOC2VRiQLWh/OS2NVJ4wI1hQ6fbNpjIMIrA3sELT3bUjkM3251tJgMHH7Z7sUgJt25eO8OyqVchLQ1BRd/TjQ+MVvjWfTG//pbBfbhZ6RwsOLhBFgLx9VRy4sDuUsuHIVT07dSMCyM1/KfpOSRJB4Q7L6PLv4i6BEL15+SIKvIB/8nE5kHZ3rMKr4iVC2oKGkGifoql/8vBHTQTmwiFJNH7Y4W4L7cb1fiomb2W8Sk+bsGuZCCuEyiUbnNAZ37rBPJ01pkjEyCx7cPE2pKfnOGoXV4Tgw1Ize0Qth2RsVEaEDIEmiiIhZXpnp7wPB5KhZYgp63eamapeKRQyFsF5Wyktfp7ER+6SL4Z88yq3QTGnp1Jbt0aK9Mk8s5N/dmEitQOPtmh4KL39akmdBlNUnmNlQD4leTXSgaj7NJ0mwsBC+R407FHCLFwmnQZs9qY+12IQ4zOLJbXkAiDe4x3IVBt4Gl3iW/2vwHMfWMUB0TmkFbS0S3tuDVYP8HZMh8fysKNRmjuVgaqYu2nfFWqw08MDjYzpg9e/3bZwFiD/mzMvIDOo2YbHe5py0iv6VwHpxc4TS4eLFFM+pyZzG0g55omoHUIrB4BaVCKs4=
+    secure: OueY+xJ6znusdFI3zE/x/HUXj1p76txXDQeVZhg74EGnHGU+F3Rb8XK/PAt+57P5mdgqDOTCCMa9q0ss8bMFPDaOTe3DRLBURqag3zRLaiYUhiEgdYoWjlQgAMVwfdGIBO87C0zkzDzuQHl4y2+RzkyPfhWOd51YsxVTQ7VhjHHhugj1HY8RZkl3V/uhLLtcFU/Jj/5v05NzM8Q6Hef1IrTneyz/n5NQ2FmKSuZSFErOnXb+tSnjPss8id7OHIpYE+rXo0jR7yiifYbHJ44P0dElgwdVhNITjOgcBtR0FC0/PUL6D//uKMsYhWm0nmfMDpEr+vEel47ODVMq6akKhP4Qh41Pv97yuGaZ8ySeP6uZ8semlMKGVVXxOO4uPJx+jSD7SOIpW81zNrt2hr2j4cc5+AuvGw/DeNGwesHMa0mgvkF6Q0dJ2VbLKQWAdzZjijyhwLrxu3apezhNTmhJvAy+a4oaHqXcbmAuMyJpR3cdtUo30n8ZkobswZ58gEFakpIOqzG6tinKo+BeUxTq+0h7gWIBZDIXWIiYHmx/gqVX6xYmFlEXACMOt+edVblNeDfE94RY8IORUjMaOchvyaXyX0MYs7p77kFPW98BjYyJvp1XLYmOJEO/g9p5LQ725vkNWmVRmVuYGhIMCAQw8JpqJb8m1ot6QdBzZUdtCTg=
   on:
     repo: minhsonfetel1996/spm-dashboard
