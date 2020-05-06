@@ -1,0 +1,154 @@
+.auth-page-container {
+  height: 100vh;
+  margin-left: auto;
+  margin-top: 8%;
+}
+.login-tap,
+.register-tap {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  transition: all 250ms ease-in-out;
+  border-radius: 5px;
+  border: 0.8px solid black;
+}
+.login-tap {
+  -webkit-box-shadow: -4px -8px 10px 0px rgba(117, 117, 117, 0.1);
+  -moz-box-shadow: -4px -8px 10px 0px rgba(117, 117, 117, 0.1);
+  box-shadow: -4px -8px 10px 0px rgba(117, 117, 117, 0.1);
+}
+
+.register-tap {
+  -webkit-box-shadow: 7px -3px 14px 0px rgba(50, 50, 50, 0.2);
+  -moz-box-shadow: 7px -3px 14px 0px rgba(50, 50, 50, 0.2);
+  box-shadow: 7px -3px 14px 0px rgba(50, 50, 50, 0.2);
+}
+.login-form-content,
+.register-form-content {
+  min-height: 55vh;
+  padding: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  transition: all 250ms ease-in-out;
+  -webkit-box-shadow: 0px 16px 19px 0px rgba(50, 50, 50, 0.2);
+  -moz-box-shadow: 0px 16px 19px 0px rgba(50, 50, 50, 0.2);
+  box-shadow: 0px 16px 19px 0px rgba(50, 50, 50, 0.2);
+}
+
+.form-group {
+  margin-bottom: 20px !important;
+}
+.login-form-content label {
+  color: rgba(45, 44, 58, 0.7);
+}
+.login-form-content input,
+.register-form-content input {
+  height: 40px !important;
+  border-radius: 20px;
+  border-color: rgba(45, 44, 58, 0.5);
+  border-width: 2px;
+  border-style: solid;
+  transition: all 250ms ease-in-out;
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(136, 135, 135, 0.2);
+  -moz-box-shadow: 0px 5px 10px 0px rgba(136, 135, 135, 0.2);
+  box-shadow: 0px 5px 10px 0px rgba(136, 135, 135, 0.2);
+}
+.login-form-content input:focus, .register-form-content input:focus {
+  background-color: rgba(241, 219, 221, 0.253);
+  border-color: rgba(45, 44, 58, 0.5);
+  border-width: 3px !important;
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+}
+.login-form-content button,
+.register-form-content button {
+  font-size: 18px;
+  height: 40px;
+  width: 200px;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  padding: 5px 20px;
+  border: none;
+  color: #fff;
+  border-radius: 20px;
+  margin-top: 50px;
+  transition: all 250ms ease-in-out;
+  background-color: rgb(58, 58, 58);
+  -webkit-box-shadow: 0px 5px 20px 1px rgba(58, 58, 58);
+  -moz-box-shadow: 0px 5px 20px 1px rgba(58, 58, 58);
+  box-shadow: 0px 5px 20px 1px rgba(58, 58, 58, 0.4);
+  cursor: pointer;
+}
+.login-form-content button:hover,
+.register-form-content button:hover {
+  transform: scale(1.02);
+  background-color: rgb(255, 255, 255);
+  color: rgb(58, 58, 58);
+  -webkit-box-shadow: 0px 5px 20px 1px rgba(58, 58, 58);
+  -moz-box-shadow: 0px 5px 20px 1px rgba(58, 58, 58);
+  box-shadow: 0px 5px 20px 1px rgba(58, 58, 58, 0.7);
+}
+.login-form-content button:focus,
+.register-form-content button:focus {
+  outline: none;
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1200px) {
+  .login-tap,
+  .register-tap {
+    margin-top: 1vh;
+  }
+}
+
+@media screen and (min-width: 680px) and (max-width: 1024px) {
+  .login-tap,
+  .register-tap {
+    margin-top: 1vh;
+  }
+  .left-section > * {
+    margin-top: 15%;
+  }
+}
+
+@media screen and (min-width: 400px) and (max-width: 680px) {
+  .login-tap,
+  .register-tap {
+    margin-top: 2vh;
+  }
+
+  .login-form-content button,
+  .register-form-content button {
+    margin-top: 15px !important;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 400px) {
+  .login-form-content button,
+  .register-form-content button {
+    margin-top: 15px !important;
+  }
+
+  .left-section {
+    overflow-y: scroll;
+  }
+
+  .login-tap,
+  .register-tap {
+    margin-top: 2vh;
+    height: 40px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    transition: all 250ms ease-in-out;
+  }
+  .form-control {
+    margin-bottom: 5px !important;
+  }
+}

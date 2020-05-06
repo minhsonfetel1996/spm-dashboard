@@ -1,0 +1,18 @@
+#images {
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+@media (min-width: 1200px) {
+  #images {
+    margin-top: 5vh !important;
+    margin-left: 15vh !important;
+  }
+}
+
+.wrap {
+  border: none !important;
+  width: auto;
+  height: auto;
+  position: relative;
+}

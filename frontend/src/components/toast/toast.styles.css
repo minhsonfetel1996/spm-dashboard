@@ -1,0 +1,12 @@
+.global-toast {
+  font-size: 14px;
+  box-sizing: border-box;
+  position: fixed;
+}
+
+.top-right {
+  top: 90px;
+  right: 10px;
+  transition: transform .6s ease-in-out;
+  animation: toast-in-right .7s;
+}

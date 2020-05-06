@@ -1,0 +1,11 @@
+.alert {
+  height: 30px;
+  width: 100%;
+  font-size: 14px;
+  text-align: left;
+  padding: 2px !important;
+  border-radius: 11px !important;
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+}

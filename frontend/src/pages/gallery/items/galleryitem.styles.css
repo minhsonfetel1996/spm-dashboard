@@ -1,0 +1,16 @@
+.item {
+  float: left;
+  width: 480px;
+  height: auto;
+  padding: 5px;
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  width: 100%;
+  min-width: 50px;
+  min-height: 50px;
+  padding-right: 10px;
+}
