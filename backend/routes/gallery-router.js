@@ -1,7 +1,7 @@
 const express = require("express");
 const galleryRouter = express.Router();
-const imageService = require("../../service/image-service");
-const GallerySchema = require("../../model/gallery");
+const imageService = require("../service/image-service");
+const GallerySchema = require("../model/gallery");
 
 const NATURE_TAB = "nature";
 const FOOD_DRINK_TAB = "food-drink";

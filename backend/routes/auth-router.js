@@ -3,15 +3,15 @@ const express = require("express");
 const authRouter = express.Router();
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
-const UsersSchema = require("../../model/users");
-const { generateAuthToken } = require("../../service/jwt-service");
+const UsersSchema = require("../model/users");
+const { generateToken } = require("../service/jwt-service");
+const verifyToken = require("../middlewares/auth");
+const usersValidators = require("./validation/users-validators");
 const {
-  verifyToken,
+  getCurrentUserFromToken,
   sendAccessToken,
   sendRefreshToken,
-  getCurrentUserFromToken,
-} = require("../../middlewares/auth");
-const usersValidators = require("../validation/users-validators");
+} = require("../service/auth-service");
 
 const {
   ACCESS_TOKEN_SECRET,
@@ -21,9 +21,9 @@ const {
 } = process.env;
 
 const processAuthentication = (user, res, message) => {
-  const accessToken = generateAuthToken(user, ACCESS_TOKEN_SECRET);
+  const accessToken = generateToken(user, ACCESS_TOKEN_SECRET);
   sendAccessToken(res, accessToken);
-  const refreshToken = generateAuthToken(user, REFRESH_TOKEN_SECRET);
+  const refreshToken = generateToken(user, REFRESH_TOKEN_SECRET);
   sendRefreshToken(res, refreshToken);
   res.status(200).json({
     user: {
@@ -99,7 +99,7 @@ const getApplicationContext = async (req, res) => {
       processAuthentication(user, res);
     }
   } else {
-    res.status(200).json({ message: "You are not logged in" });
+    res.status(200).json({ message: "You have not logged in" });
   }
 };
 
