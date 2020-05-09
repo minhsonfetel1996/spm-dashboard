@@ -1,9 +1,8 @@
-
 export default () => {
   const lazyImages = document.querySelectorAll("[data-src]") || [];
 
-  if ("IntersectionObserver" in window) {
-    let lazyImageObserver = new IntersectionObserver(function (entries, self) {
+  let lazyImageObserver = new IntersectionObserver(
+    function (entries, self) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           let lazyImage = entry.target;
@@ -13,14 +12,13 @@ export default () => {
           self.unobserve(lazyImage);
         }
       });
-    }, {
-      threshold: 0.5 // load image when 100% of image in the view port
-    });
+    },
+    {
+      threshold: 0.5, // load image when 100% of image in the view port
+    }
+  );
 
-    lazyImages.forEach(function (lazyImage) {
-      lazyImageObserver.observe(lazyImage);
-    });
-  } else {
-    // Possibly fall back to a more compatible method here
-  }
+  lazyImages.forEach(function (lazyImage) {
+    lazyImageObserver.observe(lazyImage);
+  });
 };
