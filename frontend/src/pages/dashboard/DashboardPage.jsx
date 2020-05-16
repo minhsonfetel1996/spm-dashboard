@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import { Route } from "react-router-dom";
 import SidebarComponent from "../../components/sidebar/SidebarComponent";
@@ -12,11 +12,24 @@ export default function DashboardPage(props) {
 
   const path = props.match.path;
 
+  const [mobileMode, setMobileMode] = useState(false);
+
+  const resize = () => {
+    setMobileMode(window.innerWidth <= 760);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", resize);
+    resize();
+  });
+
   return (
     <>
       <Row className="mt-1 ml-0 mr-0 pl-0 pr-0">
         <Col lg={2} sm={2} xl={2} md={3} className="pl-0 pr-0">
-          <SidebarComponent history={props.history} />
+          {!mobileMode && (
+            <SidebarComponent history={props.history} mobileMode={mobileMode} />
+          )}
         </Col>
         <Col lg={10} sm={10} xl={10} md={10}>
           <Route path={`${path}/gallery/:tabName`} component={GalleryPage} />

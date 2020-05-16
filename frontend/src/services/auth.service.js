@@ -2,11 +2,38 @@ import { post } from "./http.service";
 
 const API_AUTH_EP = "/auth";
 
-function login(username, password) {
+function login(body) {
   return new Promise(async (resolve) => {
     const { status, data: response } = await post(API_AUTH_EP + "/login", {
-      username,
-      password,
+      ...body,
+    });
+    if (status === 200) {
+      const user = response.user;
+      if (!user) {
+        resolve({
+          status: 400,
+          message: "Failed to generate token",
+        });
+      } else {
+        resolve({
+          status: status,
+          user,
+          message: response.message,
+        });
+      }
+    } else {
+      resolve({
+        status: status,
+        message: response.message,
+      });
+    }
+  });
+}
+
+function register(body) {
+  return new Promise(async (resolve) => {
+    const { status, data: response } = await post(API_AUTH_EP + "/register", {
+      ...body,
     });
     if (status === 200) {
       const user = response.user;
@@ -64,4 +91,4 @@ function keepAlive() {
   });
 }
 
-export { login, logout, keepAlive };
+export { login, logout, keepAlive, register };

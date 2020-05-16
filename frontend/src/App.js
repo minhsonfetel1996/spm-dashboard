@@ -1,4 +1,3 @@
-import { createBrowserHistory } from "history";
 import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
@@ -13,18 +12,13 @@ import NotFoundPage from "./pages/NotFoundPage";
 import { getCurrentUser } from "./reducers/CurrentUserReducer";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.history = createBrowserHistory();
-  }
-
-  buildAuthRoute = (path, isLoggedIn, isLogin) => {
+  buildAuthRoute = (path, isLoggedIn, isLoginForm) => {
     return (
       <Route
         path={path}
         render={(props) =>
           !isLoggedIn ? (
-            <AuthPage {...props} history={this.history} isLogin={isLogin} />
+            <AuthPage {...props} isLoginForm={isLoginForm} />
           ) : (
             <Redirect to="/dashboard" />
           )

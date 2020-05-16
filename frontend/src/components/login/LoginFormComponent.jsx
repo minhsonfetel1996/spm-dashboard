@@ -46,8 +46,7 @@ class LoginFormComponent extends FormComponent {
   }
 
   async submit() {
-    const { username, password } = this.state.data;
-    const response = await login(username, password);
+    const response = await login({...this.state.data});
     if (response.status === 200) {
       this.processSubmitSuccessful(response);
     } else {

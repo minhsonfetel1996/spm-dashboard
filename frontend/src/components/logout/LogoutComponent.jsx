@@ -12,7 +12,6 @@ class LogoutComponent extends React.Component {
 
   handleLogout = async () => {
     const result = await logout();
-    debugger;
     if (result.status === 200) {
       this.props.showToastSuccess("Alert", result.message);
     } else {

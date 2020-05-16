@@ -5,8 +5,14 @@ import Input from "../core/input/InputComponent";
 import "./register-form.styles.css";
 import { Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {
+  showToastSuccess,
+  showToastError,
+} from "../../reducers/GlobalToastReducer";
+import { connect } from "react-redux";
+import { register } from "../../services/auth.service";
 
-export default class RegisterFormComponent extends FormComponent {
+class RegisterFormComponent extends FormComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,10 +36,6 @@ export default class RegisterFormComponent extends FormComponent {
     };
   }
 
-  submitUrl() {
-    return "/api/auth/register";
-  }
-
   processSubmitSuccessful(response) {
     this.props.showToastSuccess("Alert", response.message);
     window.location.reload();
@@ -42,6 +44,17 @@ export default class RegisterFormComponent extends FormComponent {
   processSubmitUnsuccessful(response) {
     if (response && response.status === 400) {
       this.setState({ globalError: response.message });
+    } else {
+      this.props.showToastError("Error", response.message);
+    }
+  }
+
+  async submit() {
+    const response = await register({ ...this.state.data });
+    if (response.status === 200) {
+      this.processSubmitSuccessful(response);
+    } else {
+      this.processSubmitUnsuccessful(response);
     }
   }
 
@@ -109,3 +122,18 @@ export default class RegisterFormComponent extends FormComponent {
     );
   }
 }
+
+const mapStateToProps = (state, props) => {
+  return { ...props };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  showToastSuccess: (title, message) =>
+    dispatch(showToastSuccess(title, message)),
+  showToastError: (message) => dispatch(showToastError(message)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterFormComponent);

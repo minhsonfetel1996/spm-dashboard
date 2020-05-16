@@ -1,12 +1,33 @@
 import React from "react";
 import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import "./header.styles.scss";
-import { getCurrentUser } from "../../reducers/CurrentUserReducer";
 import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { getCurrentUser } from "../../reducers/CurrentUserReducer";
+import MainMenusComponent from "../sidebar/MainMenusComponent";
+import "./header.styles.scss";
 
-function HeaderComponent({ user }) {
-  const renderCurrentUsername = (user) => {
+class HeaderComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mobileMode: false,
+    };
+  }
+
+  setMobileMode = (value) => {
+    this.setState({ mobileMode: value });
+  };
+
+  resize = () => {
+    this.setMobileMode(window.innerWidth <= 760);
+  };
+
+  componentDidMount() {
+    window.addEventListener("resize", this.resize);
+    this.resize();
+  }
+
+  renderCurrentUsername = (user) => {
     return (
       <NavDropdown
         className="ml-0"
@@ -30,7 +51,7 @@ function HeaderComponent({ user }) {
     );
   };
 
-  const renderNavbarItems = () => {
+  renderNavbarItems = () => {
     return (
       <>
         <NavLink id="dashboard-nav-link" className="nav-link" to="/dashboard">
@@ -40,30 +61,34 @@ function HeaderComponent({ user }) {
     );
   };
 
-  return (
-    <Navbar expand="sm" bg="dark" variant="dark" className="dark-mode">
-      <Navbar.Brand>
-        <NavLink className="navbar-brand" to="/">
-          <h3>Study place</h3>
-        </NavLink>
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="navbar-collapse" />
-      <Navbar.Collapse id="navbar-collapse">
-        <Nav className="mr-auto">{renderNavbarItems()}</Nav>
-        <Nav>
-          {!!user && !!user.id ? (
-            renderCurrentUsername(user)
-          ) : (
-            <>
-              <NavLink className="nav-link" to="/login">
-                Login
-              </NavLink>
-            </>
-          )}
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  );
+  render() {
+    const { user } = this.props;
+    return (
+      <Navbar expand="sm" bg="dark" variant="dark" className="dark-mode">
+        <Navbar.Brand>
+          <NavLink className="navbar-brand" to="/">
+            <h3>Study place</h3>
+          </NavLink>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbar-collapse" />
+        <Navbar.Collapse id="navbar-collapse">
+          <Nav className="mr-auto">{this.renderNavbarItems()}</Nav>
+          <Nav>
+            {!!user && !!user.id ? (
+              this.renderCurrentUsername(user)
+            ) : (
+              <>
+                <NavLink className="nav-link" to="/login">
+                  Login
+                </NavLink>
+              </>
+            )}
+          </Nav>
+          {this.state.mobileMode && <MainMenusComponent />}
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
 }
 
 const mapStateToProps = (state, props) => {

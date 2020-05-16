@@ -11,18 +11,18 @@ export default class AuthPage extends React.Component {
   }
 
   render() {
-    const { isLogin } = this.props;
+    const { isLoginForm } = this.props;
     return (
       <div className="d-flex justify-content-center auth-page-container">
         <Row>
           <Col col={12}>
-            {isLogin ? (
+            {isLoginForm ? (
               <div className="login-form-content">
-                <LoginFormComponent {...this.props} />
+                <LoginFormComponent />
               </div>
             ) : (
               <div className="register-form-content">
-                <RegisterFormComponent {...this.props} />
+                <RegisterFormComponent />
               </div>
             )}
           </Col>

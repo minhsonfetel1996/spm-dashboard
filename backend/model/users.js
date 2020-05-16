@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const audit = require("./common/audit");
 
 const UsersSchema = new mongoose.Schema({
-  _id: { type: mongoose.Types.ObjectId },
   username: {
     type: String,
     unique: true,

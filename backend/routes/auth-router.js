@@ -18,12 +18,13 @@ const {
   REFRESH_TOKEN_SECRET,
   COOKIE_ACCESS_TOKEN,
   COOKIE_REFRESH_TOKEN,
+  SALT,
 } = process.env;
 
 const processAuthentication = (user, res, message) => {
-  const accessToken = generateToken(user, ACCESS_TOKEN_SECRET);
+  const accessToken = generateToken(user.username, ACCESS_TOKEN_SECRET);
   sendAccessToken(res, accessToken);
-  const refreshToken = generateToken(user, REFRESH_TOKEN_SECRET);
+  const refreshToken = generateToken(user.username, REFRESH_TOKEN_SECRET);
   sendRefreshToken(res, refreshToken);
   res.status(200).json({
     user: {
@@ -34,16 +35,19 @@ const processAuthentication = (user, res, message) => {
   });
 };
 
+const validateAccount = (req, res) => {
+  const errors = validationResult(req);
+  if (errors && errors.array().length > 0) {
+    return res.status(400).json({ error: errors.array() });
+  }
+};
+
 const login = async (req, res) => {
   try {
     if (getCurrentUserFromToken(req, res)) {
       throw new Error("You must log out before login");
     }
-    // verify account
-    const errors = validationResult(req);
-    if (errors && errors.array().length > 0) {
-      return res.status(400).json({ error: errors.array() });
-    }
+    validateAccount(req, res);
 
     const { username, password } = req.body;
     let user = await UsersSchema.findOne({ username });
@@ -92,7 +96,7 @@ const logout = async (req, res) => {
 const getApplicationContext = async (req, res) => {
   let user = getCurrentUserFromToken(req, res);
   if (user) {
-    user = await UsersSchema.findOne({ _id: user._id });
+    user = await UsersSchema.findOne({ username: user.username });
     if (!user) {
       res.status(400).json({ message: "Cannot found user. Try again?" });
     } else {
@@ -103,8 +107,40 @@ const getApplicationContext = async (req, res) => {
   }
 };
 
+const register = async (req, res) => {
+  try {
+    if (getCurrentUserFromToken(req, res)) {
+      throw new Error("You must log out before login");
+    }
+    const { username, password, firstName, lastName } = req.body;
+    let user = await UsersSchema.findOne({ username: username });
+    if (user) {
+      return res
+        .status(400)
+        .json({ message: "The username is available. Try again?" });
+    }
+    validateAccount(req, res);
+
+    const userModel = {
+      username,
+      password,
+      firstName,
+      lastName,
+      isActive: true,
+      lastLogin: new Date(),
+    };
+    userModel.password = bcrypt.hashSync(userModel.password, parseInt(SALT));
+    const userSchema = new UsersSchema({ ...userModel });
+    const result = await userSchema.save();
+    processAuthentication(result, res, "Register succesfully.");
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 authRouter.post("/keep-alive", getApplicationContext);
 authRouter.post("/login", usersValidators(), login);
 authRouter.post("/logout", verifyToken, logout);
+authRouter.post("/register", usersValidators(), register);
 
 module.exports = authRouter;
