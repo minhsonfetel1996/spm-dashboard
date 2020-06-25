@@ -1,18 +1,10 @@
-#images {
+.gallery-container {
   overflow: hidden;
   overflow-x: auto;
+  margin-top: 15px;
+  margin-left: 40px;
 }
 
-@media (min-width: 1200px) {
-  #images {
-    margin-top: 5vh !important;
-    margin-left: 15vh !important;
-  }
-}
-
-.wrap {
-  border: none !important;
-  width: auto;
-  height: auto;
-  position: relative;
+.hide {
+  display: none;
 }

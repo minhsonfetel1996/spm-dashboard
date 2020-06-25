@@ -10,17 +10,25 @@ const FILMS = "films";
 const supportTabs = [NATURE_TAB, FOOD_DRINK_TAB, FILMS];
 const checkValidTab = (tabName) => tabName && supportTabs.indexOf(tabName) >= 0;
 
-const getGalleryContentWithTabName = async (req, res) => {
+const getGalleryContentWithTabName = async (req, res, next) => {
   const { tab } = req.params;
+  let { skip, limit } = req.query;
+
   if (!checkValidTab(tab)) {
     return res.status(400).json({ message: "Invalid tab name" });
   }
+
+  if (skip && skip.toString().trim() && limit && limit.toString().trim()) {
+    skip = parseInt(skip < 0 ? 0 : skip);
+    limit = parseInt(limit < 0 ? 6 : limit);
+  }
+
   const result = await GallerySchema.findOne({ category: tab });
   if (result._doc) {
     res.status(200).json({
-      title: result._doc.title,
-      description: result._doc.description,
-      images: result._doc.images
+      ...result._doc,
+      images: result._doc.images.slice(skip, skip + limit),
+      hasMore: result._doc.images.length - (skip + limit) > 0,
     });
   } else {
     res.status(400).send();

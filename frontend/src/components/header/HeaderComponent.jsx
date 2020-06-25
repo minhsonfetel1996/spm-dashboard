@@ -19,7 +19,7 @@ class HeaderComponent extends React.Component {
   };
 
   resize = () => {
-    this.setMobileMode(window.innerWidth <= 760);
+    this.setMobileMode(window.innerWidth < 991);
   };
 
   componentDidMount() {
