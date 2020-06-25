@@ -30,6 +30,9 @@ class App extends React.Component {
   render() {
     const { user } = this.props;
     const isLoggedIn = !!user && !!user.id;
+    if (user === undefined) {
+      return null;
+    }
     return (
       <BrowserRouter>
         <HeaderComponent />

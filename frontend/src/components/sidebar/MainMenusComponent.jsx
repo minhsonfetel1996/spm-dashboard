@@ -1,14 +1,8 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 import MenuComponent from "./menu/MenuComponent";
-import { createBrowserHistory } from "history";
 
 export default class MainMenusComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.history = createBrowserHistory();
-  }
-
   initGallerySubMenu = (parentUrl) => {
     return [
       {
@@ -36,7 +30,6 @@ export default class MainMenusComponent extends React.Component {
     return {
       title: "Gallery",
       icon: "fa fas fa-image",
-      url: null,
       submenus: this.initGallerySubMenu("/dashboard/gallery"),
     };
   }
@@ -77,16 +70,14 @@ export default class MainMenusComponent extends React.Component {
 
   render() {
     const { galleryMenus, messages, mapsMenus, profileMenus } = this.initMenu();
-    const { mobileMode } = this.props;
+    const { mobileMode, history } = this.props;
     return (
       <Nav
         variant={mobileMode ? "" : "pills"}
         className={mobileMode ? "" : "flex-lg-column sidebar-nav w-100 ml-3"}
       >
         {[galleryMenus, messages, mapsMenus, profileMenus].map((value, key) => {
-          return (
-            <MenuComponent menu={value} key={key} history={this.history} />
-          );
+          return <MenuComponent menu={value} key={key} history={history} />;
         })}
       </Nav>
     );

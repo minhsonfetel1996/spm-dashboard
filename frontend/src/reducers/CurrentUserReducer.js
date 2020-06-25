@@ -13,6 +13,14 @@ export const fetchUserProfile = () => {
             user: response.user,
           },
         });
+      } else {
+        // show error msg
+        dispatch({
+          type: FETCH_ACTION,
+          item: {
+            user: undefined,
+          },
+        });
       }
     });
   };
