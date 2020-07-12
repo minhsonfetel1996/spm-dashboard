@@ -43,34 +43,31 @@ const validateAccount = (req, res) => {
 };
 
 const login = async (req, res) => {
-  try {
-    if (getCurrentUserFromToken(req, res)) {
-      throw new Error("You must log out before login");
-    }
-    validateAccount(req, res);
+  if (getCurrentUserFromToken(req, res)) {
+    return res.status(400).json({ message: "You must log out before login" });
+  }
 
-    const { username, password } = req.body;
-    let user = await UsersSchema.findOne({ username });
-    if (!user) {
-      throw new Error("Invalid username.");
-    }
-    const isMatchPassword = await bcrypt.compare(password, user.password);
-    if (!isMatchPassword) {
-      throw new Error("Invalid password.");
-    } else {
-      const userModel = {
-        isActive: true,
-        lastLogin: new Date(),
-      };
-      // Update last login and make sure the exist user
-      user = await UsersSchema.update({ _id: user._id }, userModel).findOne();
-      if (!user) {
-        throw new Error("Invalid username or password.");
-      }
-      processAuthentication(user, res, "Login succesfully.");
-    }
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  validateAccount(req, res);
+  const { username, password } = req.body;
+
+  let user = await UsersSchema.findOne({ username });
+  if (!user) {
+    return res.status(400).json({ message: "The username is not available." });
+  }
+  const isMatchPassword = await bcrypt.compare(password, user.password);
+  if (!isMatchPassword) {
+    return res.status(400).json({ message: "The username or password are invalid." });
+  }
+  const userModel = {
+    isActive: true,
+    lastLogin: new Date(),
+  };
+  // Update last login and make sure the exist user
+  user = await UsersSchema.findOneAndUpdate({ _id: user._id }, userModel);
+  if (!user) {
+    return res.status(400).json({ message: "The username or password are invalid." });
+  } else {
+    processAuthentication(user, res, "Login succesfully.");
   }
 };
 
@@ -78,18 +75,18 @@ const logout = async (req, res) => {
   try {
     let user = getCurrentUserFromToken(req);
     if (!user) {
-      throw new Error("You must login before log out.");
+      return res.status(400).json({ message: "You must login before log out." });
     } else {
       const userModel = {
         isActive: false,
       };
-      user = await UsersSchema.update({ _id: user._id }, userModel).findOne();
+      user = await UsersSchema.findOneAndUpdate({ _id: user._id }, userModel);
       res.clearCookie(COOKIE_ACCESS_TOKEN, { path: "/" });
       res.clearCookie(COOKIE_REFRESH_TOKEN, { path: "/" });
-      res.status(200).json({ message: "Log out successfully." });
+      return res.status(200).json({ message: "Log out successfully." });
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -103,14 +100,14 @@ const getApplicationContext = async (req, res) => {
       processAuthentication(user, res);
     }
   } else {
-    res.status(200).json({ message: "You have not logged in" });
+    res.status(200).json({ user: null, message: "You have not logged in" });
   }
 };
 
 const register = async (req, res) => {
   try {
     if (getCurrentUserFromToken(req, res)) {
-      throw new Error("You must log out before login");
+      return res.status(400).json({ message: "You must log out before login" });
     }
     const { username, password, firstName, lastName } = req.body;
     let user = await UsersSchema.findOne({ username: username });
@@ -130,11 +127,10 @@ const register = async (req, res) => {
       lastLogin: new Date(),
     };
     userModel.password = bcrypt.hashSync(userModel.password, parseInt(SALT));
-    const userSchema = new UsersSchema({ ...userModel });
-    const result = await userSchema.save();
+    const result = await new UsersSchema({ ...userModel }).save();
     processAuthentication(result, res, "Register succesfully.");
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 

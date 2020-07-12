@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
-import { Route } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import SidebarComponent from "../../components/sidebar/SidebarComponent";
 import GalleryPage from "../gallery/GalleryPage";
 import MapsPage from "../maps/MapsPage";
@@ -11,6 +11,7 @@ export default function DashboardPage(props) {
   document.title = "Dashboard";
 
   const path = props.match.path;
+  const history = useHistory();
 
   const [mobileMode, setMobileMode] = useState(false);
 
@@ -28,7 +29,7 @@ export default function DashboardPage(props) {
       <Row className="mt-1 ml-0 mr-0 pl-0 pr-0">
         <Col lg={2} sm={2} xl={2} md={3} className="pl-0 pr-0">
           {!mobileMode && (
-            <SidebarComponent history={props.history} mobileMode={mobileMode} />
+            <SidebarComponent history={history} mobileMode={mobileMode} />
           )}
         </Col>
         <Col lg={10} sm={10} xl={10} md={10}>

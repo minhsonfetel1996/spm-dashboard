@@ -67,15 +67,24 @@ function register(body) {
 }
 
 function logout() {
-  return new Promise(async (resolve) => {
-    const { status, data: response } = await post(
+  return new Promise((resolve) => {
+    post(
       API_AUTH_EP + "/logout",
       null
-    );
-    resolve({
-      status: status,
-      message: response.message,
+    ).then((response) => {
+      if (response.ok) {
+        resolve({
+          status: 200,
+          message: JSON.parse(response).message,
+        });
+      } else {
+        resolve({
+          status: 304,
+          message: response.message
+        });
+      }
     });
+
   });
 }
 

@@ -3,7 +3,6 @@ import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getCurrentUser } from "../../reducers/CurrentUserReducer";
-import MainMenusComponent from "../sidebar/MainMenusComponent";
 import "./header.styles.scss";
 
 class HeaderComponent extends React.Component {
@@ -57,6 +56,8 @@ class HeaderComponent extends React.Component {
         <NavLink id="dashboard-nav-link" className="nav-link" to="/dashboard">
           Dashboard
         </NavLink>
+        {/* TODO SPM to be implement */}
+        {/* {this.state.mobileMode && <MainMenusComponent />} */}
       </>
     );
   };
@@ -77,14 +78,13 @@ class HeaderComponent extends React.Component {
             {!!user && !!user.id ? (
               this.renderCurrentUsername(user)
             ) : (
-              <>
-                <NavLink className="nav-link" to="/login">
-                  Login
+                <>
+                  <NavLink className="nav-link" to="/login">
+                    Login
                 </NavLink>
-              </>
-            )}
+                </>
+              )}
           </Nav>
-          {this.state.mobileMode && <MainMenusComponent />}
         </Navbar.Collapse>
       </Navbar>
     );

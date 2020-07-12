@@ -10,7 +10,7 @@ export default class MenuComponent extends React.PureComponent {
     this.state = {
       openSubMenu: this.checkSubMenuOpenningHandler(
         this.props.history.location.pathname
-      ),
+      )
     };
   }
 

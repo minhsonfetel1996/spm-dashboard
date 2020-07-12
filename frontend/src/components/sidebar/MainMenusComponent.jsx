@@ -1,8 +1,11 @@
 import React from "react";
 import { Nav } from "react-bootstrap";
 import MenuComponent from "./menu/MenuComponent";
+import { createBrowserHistory } from "history";
 
 export default class MainMenusComponent extends React.Component {
+  history = createBrowserHistory();
+
   initGallerySubMenu = (parentUrl) => {
     return [
       {
@@ -70,14 +73,15 @@ export default class MainMenusComponent extends React.Component {
 
   render() {
     const { galleryMenus, messages, mapsMenus, profileMenus } = this.initMenu();
-    const { mobileMode, history } = this.props;
+    const { mobileMode } = this.props;
+    
     return (
       <Nav
         variant={mobileMode ? "" : "pills"}
         className={mobileMode ? "" : "flex-lg-column sidebar-nav w-100 ml-3"}
       >
         {[galleryMenus, messages, mapsMenus, profileMenus].map((value, key) => {
-          return <MenuComponent menu={value} key={key} history={history} />;
+          return <MenuComponent menu={value} key={key} history={this.history} />;
         })}
       </Nav>
     );

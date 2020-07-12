@@ -168,7 +168,6 @@ export default class GalleryPage extends React.Component {
           {this.runLazyLoadingProcess()}
         </Row>
         <div className="loading hide" ref={this.loadingRefCallback.bind(this)}>
-          Loading...
         </div>
       </div>
     );

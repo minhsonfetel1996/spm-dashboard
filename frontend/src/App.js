@@ -11,8 +11,9 @@ import DashboardPage from "./pages/dashboard/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { getCurrentUser } from "./reducers/CurrentUserReducer";
 
-class App extends React.Component {
-  buildAuthRoute = (path, isLoggedIn, isLoginForm) => {
+
+function App(props) {
+  const buildAuthRoute = (path, isLoggedIn, isLoginForm) => {
     return (
       <Route
         path={path}
@@ -20,27 +21,27 @@ class App extends React.Component {
           !isLoggedIn ? (
             <AuthPage {...props} isLoginForm={isLoginForm} />
           ) : (
-            <Redirect to="/dashboard" />
-          )
+              <Redirect to="/dashboard" />
+            )
         }
       />
     );
   };
 
-  render() {
-    const { user } = this.props;
-    const isLoggedIn = !!user && !!user.id;
-    if (user === undefined) {
-      return null;
-    }
+  const { user } = props;
+  const isLoggedIn = !!user && !!user.id;
+
+  if (user === undefined) {
+    return null;
+  } else {
     return (
       <BrowserRouter>
         <HeaderComponent />
         <ToastComponent />
         <ModalComponent />
         <Switch>
-          {this.buildAuthRoute("/login", isLoggedIn, true)}
-          {this.buildAuthRoute("/register", isLoggedIn, false)}
+          {buildAuthRoute("/login", isLoggedIn, true)}
+          {buildAuthRoute("/register", isLoggedIn, false)}
           <Route path="/logout" component={LogoutComponent}></Route>
           <Route path="/dashboard" component={DashboardPage} />
           <Route path="/not-found" component={NotFoundPage}></Route>

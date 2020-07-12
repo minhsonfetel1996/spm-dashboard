@@ -6,9 +6,9 @@ const GallerySchema = require("../model/gallery");
 const NATURE_TAB = "nature";
 const FOOD_DRINK_TAB = "food-drink";
 const FILMS = "films";
+const SUPPORT_TABS = [NATURE_TAB, FOOD_DRINK_TAB, FILMS];
 
-const supportTabs = [NATURE_TAB, FOOD_DRINK_TAB, FILMS];
-const checkValidTab = (tabName) => tabName && supportTabs.indexOf(tabName) >= 0;
+const checkValidTab = (tabName) => tabName && SUPPORT_TABS.indexOf(tabName) >= 0;
 
 const getGalleryContentWithTabName = async (req, res, next) => {
   const { tab } = req.params;
@@ -25,13 +25,13 @@ const getGalleryContentWithTabName = async (req, res, next) => {
 
   const result = await GallerySchema.findOne({ category: tab });
   if (result._doc) {
-    res.status(200).json({
+    return res.status(200).json({
       ...result._doc,
       images: result._doc.images.slice(skip, skip + limit),
       hasMore: result._doc.images.length - (skip + limit) > 0,
     });
   } else {
-    res.status(400).send();
+    return res.status(400).send();
   }
 };
 
