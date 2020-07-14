@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { removeUserProfile } from "../../reducers/CurrentUserReducer";
-import { showToastError, showToastSuccess } from "../../reducers/GlobalToastReducer";
+import {
+  showToastError,
+  showToastSuccess,
+} from "../../reducers/GlobalToastReducer";
 import { logout } from "../../services/auth.service";
 
 class LogoutComponent extends React.Component {
-
   UNSAFE_componentWillMount() {
     this.handleLogout();
   }

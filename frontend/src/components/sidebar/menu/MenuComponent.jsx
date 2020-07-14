@@ -8,23 +8,23 @@ export default class MenuComponent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      openSubMenu: this.checkSubMenuOpenningHandler(
+      openSubMenu: this.checkSubMenuOpeningHandler(
         this.props.history.location.pathname
-      )
+      ),
     };
   }
 
-  checkSubMenuOpenningHandler(pathname) {
+  checkSubMenuOpeningHandler(pathname) {
     return (
-      !!this.props.menu.submenus &&
-      this.props.menu.submenus.filter((v) => v.url === pathname).length > 0
+      !!this.props.menu.subMenus &&
+      this.props.menu.subMenus.filter((v) => v.url === pathname).length > 0
     );
   }
 
   componentDidMount() {
     this.historyEventListener = this.props.history.listen((location) => {
       this.setState({
-        openSubMenu: this.checkSubMenuOpenningHandler(location.pathname),
+        openSubMenu: this.checkSubMenuOpeningHandler(location.pathname),
       });
     });
   }
@@ -35,26 +35,27 @@ export default class MenuComponent extends React.PureComponent {
     }
   }
 
-  renderSubMenu(submenu) {
+  renderSubMenu(subMenu) {
     return (
       <NavLink
-        key={`${submenu.id}-nav-link`}
+        key={`${subMenu.id}-nav-link`}
         className="nav-link"
-        to={submenu.url}
+        to={subMenu.url}
       >
         <NavItem>
-          <i className={submenu.icon}></i> {submenu.title}
+          <i className={subMenu.icon}></i> {subMenu.title}
         </NavItem>
       </NavLink>
     );
   }
 
   getDefaultUrl = (menu) => {
-    return menu.url ? menu.url : menu.submenus ? menu.submenus[0].url : null;
+    return menu.url ? menu.url : menu.subMenus ? menu.subMenus[0].url : null;
   };
 
   render() {
     const { menu } = this.props;
+
     return (
       <>
         <NavLink
@@ -70,8 +71,8 @@ export default class MenuComponent extends React.PureComponent {
         </NavLink>
         <div className="ml-3">
           {this.state.openSubMenu &&
-            menu.submenus &&
-            (() => <>{menu.submenus.map((sm) => this.renderSubMenu(sm))}</>)()}
+            menu.subMenus &&
+            <>{menu.subMenus.map((sm) => this.renderSubMenu(sm))}</>}
         </div>
       </>
     );

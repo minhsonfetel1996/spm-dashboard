@@ -8,10 +8,11 @@ const FOOD_DRINK_TAB = "food-drink";
 const FILMS = "films";
 const SUPPORT_TABS = [NATURE_TAB, FOOD_DRINK_TAB, FILMS];
 
-const checkValidTab = (tabName) => tabName && SUPPORT_TABS.indexOf(tabName) >= 0;
+const checkValidTab = (tabName) =>
+  tabName && SUPPORT_TABS.indexOf(tabName) >= 0;
 
-const getGalleryContentWithTabName = async (req, res, next) => {
-  const { tab } = req.params;
+const getGalleryContentWithTabName = async (req, res) => {
+  const tab = req.params.tab;
   let { skip, limit } = req.query;
 
   if (!checkValidTab(tab)) {
@@ -23,15 +24,19 @@ const getGalleryContentWithTabName = async (req, res, next) => {
     limit = parseInt(limit < 0 ? 6 : limit);
   }
 
-  const result = await GallerySchema.findOne({ category: tab });
-  if (result._doc) {
-    return res.status(200).json({
-      ...result._doc,
-      images: result._doc.images.slice(skip, skip + limit),
-      hasMore: result._doc.images.length - (skip + limit) > 0,
-    });
-  } else {
-    return res.status(400).send();
+  try {
+    const result = await GallerySchema.findOne({ category: tab });
+    if (result._doc) {
+      return res.status(200).json({
+        ...result._doc,
+        images: result._doc.images.slice(skip, skip + limit),
+        hasMore: result._doc.images.length - (skip + limit) > 0,
+      });
+    } else {
+      return res.status(400).send();
+    }
+  } catch (error) {
+    return res.status(500).json({msg: "Have error during getting gallery content with tab name: " + tab});
   }
 };
 
@@ -53,16 +58,17 @@ const loadImageForTabName = async (req, res) => {
   const width = req.query.width ? +req.query.width : undefined;
   const height = req.query.height ? +req.query.height : undefined;
   buildResponseHeaderForDownloadFile(req, res);
-  const loadImageApi = await imageService.loadImage(
-    `/${tab}`,
-    filename,
-    width,
-    height
-  );
-  if (loadImageApi) {
+  try {
+    const loadImageApi = await imageService.loadImage(
+      `/${tab}`,
+      filename,
+      width,
+      height
+    );
     loadImageApi.pipe(res);
-  } else {
-    res.status(500).json({ message: "Have error during read stream image" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Have error during read stream image" });
   }
 };
 

@@ -33,7 +33,7 @@ export default class MainMenusComponent extends React.Component {
     return {
       title: "Gallery",
       icon: "fa fas fa-image",
-      submenus: this.initGallerySubMenu("/dashboard/gallery"),
+      subMenus: this.initGallerySubMenu("/dashboard/gallery"),
     };
   }
 
@@ -46,42 +46,22 @@ export default class MainMenusComponent extends React.Component {
     };
   };
 
-  initMapsMenu() {
-    return {
-      title: "Maps",
-      icon: "fa fas fa-globe",
-      url: "/dashboard/maps",
-    };
-  }
-
-  initProfileMenus() {
-    return {
-      title: "Profile",
-      icon: "fa fas fa-user",
-      url: "/dashboard/profile",
-    };
-  }
-
   initMenu() {
-    return {
-      galleryMenus: this.initGalleryMenu(),
-      messages: this.initMessageMenu(),
-      mapsMenus: this.initMapsMenu(),
-      profileMenus: this.initProfileMenus(),
-    };
+    return [this.initGalleryMenu(), this.initMessageMenu()];
   }
 
   render() {
-    const { galleryMenus, messages, mapsMenus, profileMenus } = this.initMenu();
     const { mobileMode } = this.props;
-    
+
     return (
       <Nav
         variant={mobileMode ? "" : "pills"}
         className={mobileMode ? "" : "flex-lg-column sidebar-nav w-100 ml-3"}
       >
-        {[galleryMenus, messages, mapsMenus, profileMenus].map((value, key) => {
-          return <MenuComponent menu={value} key={key} history={this.history} />;
+        {this.initMenu().map((value, key) => {
+          return (
+            <MenuComponent menu={value} key={key} history={this.history} />
+          );
         })}
       </Nav>
     );

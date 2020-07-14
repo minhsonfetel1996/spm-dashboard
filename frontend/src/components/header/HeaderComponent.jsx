@@ -50,18 +50,6 @@ class HeaderComponent extends React.Component {
     );
   };
 
-  renderNavbarItems = () => {
-    return (
-      <>
-        <NavLink id="dashboard-nav-link" className="nav-link" to="/dashboard">
-          Dashboard
-        </NavLink>
-        {/* TODO SPM to be implement */}
-        {/* {this.state.mobileMode && <MainMenusComponent />} */}
-      </>
-    );
-  };
-
   render() {
     const { user } = this.props;
     return (
@@ -73,8 +61,7 @@ class HeaderComponent extends React.Component {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-collapse" />
         <Navbar.Collapse id="navbar-collapse">
-          <Nav className="mr-auto">{this.renderNavbarItems()}</Nav>
-          <Nav>
+          <Nav className="ml-auto">
             {!!user && !!user.id ? (
               this.renderCurrentUsername(user)
             ) : (

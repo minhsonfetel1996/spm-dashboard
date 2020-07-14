@@ -10,7 +10,7 @@ import AuthPage from "./pages/auth/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { getCurrentUser } from "./reducers/CurrentUserReducer";
-
+import ProtectedRoute from "./components/route/ProtectedRoute";
 
 function App(props) {
   const buildAuthRoute = (path, isLoggedIn, isLoginForm) => {
@@ -43,7 +43,7 @@ function App(props) {
           {buildAuthRoute("/login", isLoggedIn, true)}
           {buildAuthRoute("/register", isLoggedIn, false)}
           <Route path="/logout" component={LogoutComponent}></Route>
-          <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/dashboard" component={ProtectedRoute(DashboardPage, isLoggedIn)} />
           <Route path="/not-found" component={NotFoundPage}></Route>
           <Redirect from="/" exact to="/dashboard" />
         </Switch>

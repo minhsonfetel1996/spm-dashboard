@@ -128,7 +128,7 @@ const register = async (req, res) => {
     };
     userModel.password = bcrypt.hashSync(userModel.password, parseInt(SALT));
     const result = await new UsersSchema({ ...userModel }).save();
-    processAuthentication(result, res, "Register succesfully.");
+    processAuthentication(result, res, "Register successfully.");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
