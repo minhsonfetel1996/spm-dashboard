@@ -67,7 +67,7 @@ const login = async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "The username or password are invalid." });
   } else {
-    processAuthentication(user, res, "Login succesfully.");
+    processAuthentication(user, res, "Login successfully.");
   }
 };
 
