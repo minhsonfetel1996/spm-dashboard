@@ -34,7 +34,7 @@ class LoginFormComponent extends FormComponent {
 
   processSubmitSuccessful(response) {
     this.props.showToastSuccess("Alert", response.message);
-    window.location.reload();
+    window.location.assign("/");
   }
 
   processSubmitUnsuccessful(response) {

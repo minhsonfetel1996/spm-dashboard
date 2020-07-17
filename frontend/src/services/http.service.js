@@ -13,9 +13,7 @@ axios.interceptors.response.use(null, (error) => {
 });
 
 const getApiUrl = () => {
-  return process.env.NDOE_ENV === "production"
-    ? "https://vn-dashboard.herokuapp.com/api"
-    : "http://localhost:4000/api";
+  return "http://localhost:5002/api";
 };
 
 const prepareHeaders = () => {

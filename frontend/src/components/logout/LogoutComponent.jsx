@@ -20,8 +20,7 @@ class LogoutComponent extends React.Component {
       this.props.showToastError("Logout unsuccessfully");
     }
     this.props.removeUser();
-    this.props.history.push("/login");
-    window.location.reload();
+    window.location.assign("/login");
   };
 
   render() {
