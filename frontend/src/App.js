@@ -3,14 +3,13 @@ import { connect } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import "./App.css";
 import HeaderComponent from "./components/header/HeaderComponent";
-import LogoutComponent from "./components/logout/LogoutComponent";
 import ModalComponent from "./components/modal/ModalComponent";
+import ProtectedRoute from "./components/route/ProtectedRoute";
 import ToastComponent from "./components/toast/ToastComponent";
 import AuthPage from "./pages/auth/AuthPage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { getCurrentUser } from "./reducers/CurrentUserReducer";
-import ProtectedRoute from "./components/route/ProtectedRoute";
 
 function App(props) {
   const buildAuthRoute = (path, isLoggedIn, isLoginForm) => {
@@ -41,8 +40,7 @@ function App(props) {
         <ModalComponent />
         <Switch>
           {buildAuthRoute("/login", isLoggedIn, true)}
-          {buildAuthRoute("/register", isLoggedIn, false)}
-          <Route path="/logout" component={LogoutComponent}></Route>
+          {buildAuthRoute("/register", isLoggedIn, false)}Ò
           <Route path="/dashboard" component={ProtectedRoute(DashboardPage, isLoggedIn)} />
           <Route path="/not-found" component={NotFoundPage}></Route>
           <Redirect from="/" exact to="/dashboard" />

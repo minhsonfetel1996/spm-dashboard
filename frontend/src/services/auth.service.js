@@ -8,26 +8,11 @@ function login(body) {
       ...body,
     })
       .then(({ status, data: response }) => {
-        if (status === 200) {
-          const user = response.user;
-          if (!user) {
-            resolve({
-              status: 400,
-              message: "Failed to generate token",
-            });
-          } else {
-            resolve({
-              status: status,
-              user,
-              message: response.message,
-            });
-          }
-        } else {
-          resolve({
-            status: status,
-            message: response.message,
-          });
-        }
+        resolve({
+          status,
+          user: response.user || null,
+          message: response.message,
+        });
       })
       .catch((error) => {
         resolve({
@@ -39,52 +24,41 @@ function login(body) {
 }
 
 function register(body) {
-  return new Promise(async (resolve) => {
-    const { status, data: response } = await post(API_AUTH_EP + "/register", {
+  return new Promise((resolve) => {
+    post(API_AUTH_EP + "/register", {
       ...body,
-    });
-    if (status === 200) {
-      const user = response.user;
-      if (!user) {
-        resolve({
-          status: 400,
-          message: "Failed to generate token",
-        });
-      } else {
+    })
+      .then(({ status, data: response }) => {
         resolve({
           status: status,
-          user,
+          user: response.user || null,
           message: response.message,
         });
-      }
-    } else {
-      resolve({
-        status: status,
-        message: response.message,
+      })
+      .catch((error) => {
+        resolve({
+          status: 500,
+          message: error.message,
+        });
       });
-    }
   });
 }
 
 function logout() {
   return new Promise((resolve) => {
-    post(
-      API_AUTH_EP + "/logout",
-      null
-    ).then((response) => {
-      if (response.ok) {
+    post(API_AUTH_EP + "/logout", null)
+      .then(({ status, message }) => {
         resolve({
-          status: 200,
-          message: JSON.parse(response).message,
+          status: status,
+          message: message,
         });
-      } else {
+      })
+      .catch((error) => {
         resolve({
-          status: 304,
-          message: response.message
+          status: 500,
+          message: error.message,
         });
-      }
-    });
-
+      });
   });
 }
 
@@ -92,17 +66,10 @@ function keepAlive() {
   return new Promise((resolve) => {
     post(API_AUTH_EP + "/keep-alive", null)
       .then(({ status, data: response }) => {
-        if (status === 200) {
-          resolve({
-            status: status,
-            user: response.user,
-          });
-        } else {
-          resolve({
-            status: status,
-            message: response.message,
-          });
-        }
+        resolve({
+          status: status,
+          user: response.user,
+        });
       })
       .catch((error) => {
         resolve({

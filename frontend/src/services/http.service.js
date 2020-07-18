@@ -13,7 +13,7 @@ axios.interceptors.response.use(null, (error) => {
 });
 
 const getApiUrl = () => {
-  return "http://localhost:5002/api";
+  return "http://localhost:4000/api";
 };
 
 const prepareHeaders = () => {

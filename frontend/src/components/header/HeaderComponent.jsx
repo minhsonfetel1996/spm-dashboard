@@ -2,8 +2,16 @@ import React from "react";
 import { Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { getCurrentUser } from "../../reducers/CurrentUserReducer";
+import {
+  getCurrentUser,
+  removeUserProfile,
+} from "../../reducers/CurrentUserReducer";
+import { logout } from "../../services/auth.service";
 import "./header.styles.scss";
+import {
+  showToastSuccess,
+  showToastError,
+} from "../../reducers/GlobalToastReducer";
 
 class HeaderComponent extends React.Component {
   constructor(props) {
@@ -26,6 +34,19 @@ class HeaderComponent extends React.Component {
     this.resize();
   }
 
+  async handleLogout() {
+    const result = await logout();
+    if (result.status === 200) {
+      this.props.showToastSuccess("Alert", result.message);
+      this.props.removeUser();
+      setTimeout(() => {
+        window.location.assign("/login");
+      }, 200);
+    } else {
+      this.props.showToastError("Logout unsuccessfully");
+    }
+  }
+
   renderCurrentUsername = (user) => {
     return (
       <NavDropdown
@@ -40,8 +61,8 @@ class HeaderComponent extends React.Component {
           </NavItem>
         </NavLink>
         <NavDropdown.Divider />
-        <NavLink id="logout-nav-link" className="nav-link" to="/logout">
-          <NavItem>
+        <NavLink className="nav-link" to="">
+          <NavItem id="logout-nav-item" onClick={this.handleLogout.bind(this)}>
             <i className="fa fas fa-sign-out"></i>
             <span>Log out</span>
           </NavItem>
@@ -65,12 +86,12 @@ class HeaderComponent extends React.Component {
             {!!user && !!user.id ? (
               this.renderCurrentUsername(user)
             ) : (
-                <>
-                  <NavLink className="nav-link" to="/login">
-                    Login
+              <>
+                <NavLink className="nav-link" to="/login">
+                  Login
                 </NavLink>
-                </>
-              )}
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -85,4 +106,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps)(HeaderComponent);
+const mapDispatchToProps = (dispatch) => ({
+  removeUser: () => dispatch(removeUserProfile()),
+  showToastSuccess: (title, message) =>
+    dispatch(showToastSuccess(title, message)),
+  showToastError: (message) => dispatch(showToastError(message)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent);
